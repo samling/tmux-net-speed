@@ -5,8 +5,8 @@ source "$CURRENT_DIR/helpers.sh"
 
 sum_download_speed()
 {
-    # Output uses first column
-    sum_speed 1
+    # Output uses twelfth column
+    sum_speed 12
 }
 
 main()

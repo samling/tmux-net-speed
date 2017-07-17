@@ -89,8 +89,9 @@ get_interfaces()
     local interfaces=$(get_tmux_option @net_speed_interfaces "")
 
     if [[ -z "$interfaces" ]] ; then
-        for interface in /sys/class/net/*; do
-            interfaces+=$(echo $(basename $interface) " ");
+        local ifaces = $(networksetup -listallhardwareports | awk '"Device:" {if ($1 == "Device:") print $2}')
+        for interface in ifaces; do
+            interfaces+=$(basename $interface);
         done
     fi
 
@@ -102,12 +103,12 @@ sum_speed()
 {
     local column=$1
 
-    declare -a interfaces=$(get_interfaces)
+    interfaces=$(get_interfaces)
 
     local line=""
     local val=0
     for intf in ${interfaces[@]} ; do
-        line=$(cat /proc/net/dev | grep "$intf" | cut -d':' -f 2)
+        line=$(netstat -I $intf | tail -n 1)
         speed="$(echo -n $line | cut -d' ' -f $column)"
         let val+=${speed:=0}
     done

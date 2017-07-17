@@ -5,8 +5,8 @@ source "$CURRENT_DIR/helpers.sh"
 
 sum_upload_speed()
 {
-    # Output uses ninth column
-    sum_speed 9
+    # Output uses eighteenth column
+    sum_speed 18
 }
 
 main()
